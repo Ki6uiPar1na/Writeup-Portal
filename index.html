@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JCSC - Hamba CTF Contest 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0f1e;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px;
+      position: relative;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(26, 35, 126, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(57, 73, 171, 0.1) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 0%, rgba(26, 35, 126, 0.08) 0%, transparent 50%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 580px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .header img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+
+    .header h1 {
+      color: #fff;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header h1 span {
+      color: #5c6bc0;
+    }
+
+    .header p {
+      color: #78909c;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px 38px;
+      box-shadow: 0 12px 50px rgba(0,0,0,0.35);
+      transition: all 0.3s ease;
+    }
+
+    .form-card.success-state {
+      background: linear-gradient(135deg, #e8f0fe, #f5f7ff);
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #37474f;
+      margin-bottom: 7px;
+    }
+
+    .form-group label .required {
+      color: #e53935;
+    }
+
+    .form-group .input-icon {
+      display: flex;
+      align-items: center;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      background: #fafafa;
+    }
+
+    .form-group .input-icon:focus-within {
+      border-color: #3949ab;
+      box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.1);
+      background: #fff;
+    }
+
+    .form-group .input-icon .icon-box {
+      padding: 0 14px;
+      color: #90a4ae;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .form-group .input-icon input {
+      flex: 1;
+      padding: 12px 14px 12px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      color: #263238;
+      outline: none;
+      background: transparent;
+    }
+
+    .file-upload-box {
+      border: 2px dashed #bdbdbd;
+      border-radius: 10px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: #fafafa;
+      position: relative;
+    }
+
+    .file-upload-box:hover {
+      border-color: #3949ab;
+      background: #f0f2ff;
+    }
+
+    .file-upload-box.dragover {
+      border-color: #3949ab;
+      background: #e8eaff;
+    }
+
+    .file-upload-box .upload-icon {
+      font-size: 36px;
+      color: #90a4ae;
+      margin-bottom: 8px;
+    }
+
+    .file-upload-box .upload-text {
+      color: #546e7a;
+      font-size: 14px;
+    }
+
+    .file-upload-box .upload-text strong {
+      color: #3949ab;
+    }
+
+    .file-upload-box .upload-hint {
+      color: #90a4ae;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .file-upload-box input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-upload-box .file-name {
+      display: none;
+      color: #1a237e;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .file-upload-box.has-file {
+      border-color: #3949ab;
+      background: #e8eaff;
+    }
+
+    .file-upload-box.has-file .upload-icon,
+    .file-upload-box.has-file .upload-text,
+    .file-upload-box.has-file .upload-hint {
+      display: none;
+    }
+
+    .file-upload-box.has-file .file-name {
+      display: block;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      color: #fff;
+      border: none;
+      padding: 15px 0;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      letter-spacing: 0.3px;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .success-content {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-content .check-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(26, 35, 126, 0.3);
+    }
+
+    .success-content h2 {
+      color: #1a237e;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .success-content p {
+      color: #546e7a;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .blocked-content {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .blocked-content .block-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e53935, #ff6659);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(229, 57, 53, 0.3);
+    }
+
+    .blocked-content h2 {
+      color: #c62828;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .blocked-content p {
+      color: #78909c;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      color: #455a64;
+      font-size: 12px;
+      margin-top: 24px;
+      line-height: 1.7;
+    }
+
+    .footer strong {
+      color: #78909c;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .form-card { padding: 24px 20px; }
+      .header h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="banner.png" alt="Hamba CTF Contest 2026">
+      <h1>Writeup <span>Submission</span></h1>
+      <p>Submit your writeups for Hamba CTF Contest 2026 - JCSC</p>
+    </div>
+
+    <div class="form-card" id="formCard">
+      <form id="writeupForm" method="post" enctype="multipart/form-data" action="https://submit.jotform.com/submit/261456666763065">
+        <input type="hidden" name="formID" value="261456666763065">
+        <input type="hidden" name="submitSource" value="unknown">
+
+        <div class="form-group">
+          <label>&#9993; Email <span class="required">*</span></label>
+          <div class="input-icon">
+            <span class="icon-box">@</span>
+            <input type="email" name="q6_email" placeholder="your@email.com" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>&#128100; Username <span class="required">*</span></label>
+          <div class="input-icon">
+            <span class="icon-box">&#128100;</span>
+            <input type="text" name="q7_username" placeholder="Your username" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>&#128196; Contest Writeup <span class="required">*</span></label>
+          <div class="file-upload-box" id="uploadBox">
+            <div class="upload-icon">&#128206;</div>
+            <div class="upload-text"><strong>Click to upload</strong> or drag &amp; drop</div>
+            <div class="upload-hint">PDF, TXT, DOC, DOCX (Max 10MB)</div>
+            <div class="file-name" id="fileName"></div>
+            <input type="file" name="q5_contestWriteup[]" id="fileInput" accept=".pdf,.txt,.doc,.docx" required>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Submit Writeup
+        </button>
+      </form>
+    </div>
+
+    <div class="footer">
+      <strong>JCSC</strong> &bull; Jatiya Kabi Kazi Nazrul Islam University &bull; Trishal, Mymensingh
+    </div>
+  </div>
+
+  <script>
+    var STORAGE_KEY = 'hambactf_submitted_261456666763065';
+    var COOKIE_KEY = 'hambactf_submitted';
+
+    function getCookie(name) {
+      var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? decodeURIComponent(match[2]) : null;
+    }
+
+    function setCookie(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+      document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+    }
+
+    function hasSubmittedBefore() {
+      return localStorage.getItem(STORAGE_KEY) || getCookie(COOKIE_KEY);
+    }
+
+    function markSubmitted() {
+      localStorage.setItem(STORAGE_KEY, '1');
+      setCookie(COOKIE_KEY, '1', 30);
+    }
+
+    function showAlreadySubmitted() {
+      var card = document.getElementById('formCard');
+      card.innerHTML = '<div class="blocked-content"><div class="block-icon">!</div><h2>Already Submitted</h2><p>You have already submitted a writeup for this contest.<br>Multiple submissions are not allowed.</p></div>';
+    }
+
+    if (hasSubmittedBefore()) {
+      showAlreadySubmitted();
+    }
+
+    var fileInput = document.getElementById('fileInput');
+    var uploadBox = document.getElementById('uploadBox');
+    var fileName = document.getElementById('fileName');
+
+    fileInput.addEventListener('change', function() {
+      if (this.files.length > 0) {
+        uploadBox.classList.add('has-file');
+        fileName.textContent = '\u2713 ' + this.files[0].name;
+      } else {
+        uploadBox.classList.remove('has-file');
+      }
+    });
+
+    uploadBox.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      this.classList.add('dragover');
+    });
+
+    uploadBox.addEventListener('dragleave', function() {
+      this.classList.remove('dragover');
+    });
+
+    uploadBox.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) {
+        fileInput.files = e.dataTransfer.files;
+        uploadBox.classList.add('has-file');
+        fileName.textContent = '\u2713 ' + e.dataTransfer.files[0].name;
+      }
+    });
+
+    document.getElementById('writeupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = document.getElementById('submitBtn');
+      var card = document.getElementById('formCard');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+      var form = this;
+      var data = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        mode: 'no-cors'
+      }).then(function() {
+        markSubmitted();
+        card.classList.add('success-state');
+        card.innerHTML = '<div class="success-content"><div class="check-circle">&#10003;</div><h2>Your Writeup is Under Review</h2><p>Thank you for your submission.<br>We will review it and get back to you.</p></div>';
+      }).catch(function() {
+        markSubmitted();
+        card.classList.add('success-state');
+        card.innerHTML = '<div class="success-content"><div class="check-circle">&#10003;</div><h2>Your Writeup is Under Review</h2><p>Thank you for your submission.<br>We will review it and get back to you.</p></div>';
+      });
+    });
+  </script>
+</body>
+</html>
