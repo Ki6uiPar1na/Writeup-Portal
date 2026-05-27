@@ -390,6 +390,35 @@
       line-height: 1.6;
     }
 
+    .closed-box {
+      text-align: center;
+      padding: 50px 20px;
+      background: rgba(255, 215, 0, 0.03);
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      border-radius: 16px;
+      margin-top: 0;
+    }
+
+    .closed-box .closed-icon {
+      font-size: 52px;
+      margin-bottom: 14px;
+    }
+
+    .closed-box h2 {
+      color: #ffd54f;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .closed-box p {
+      color: rgba(255,255,255,0.45);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    #submissionClosed { display: none; }
+    #submissionOpen { display: block; }
+
     .footer {
       text-align: center;
       color: rgba(255,255,255,0.2);
@@ -502,23 +531,32 @@
       <div class="eid-badge">&#127874; Eid Mubarak 2026 &#127874;</div>
     </div>
 
-    <div class="notice-bar">&#9888; Only one submission allowed per participant. Duplicate entries will be rejected.</div>
+    <div class="notice-bar" id="noticeBar">&#9888; Only one submission allowed per participant. Duplicate entries will be rejected.</div>
 
-    <div class="content-row">
-      <div class="sidebar">
-        <div class="rules-box">
-          <div class="rules-title">Writeup Rules</div>
-          <ul>
-            <li>Writeup must be your own original work &mdash; plagiarism strictly prohibited</li>
-            <li>Include step-by-step approach with commands, screenshots, and explanations</li>
-            <li>Mention tools, techniques, and resources used to solve the challenge</li>
-            <li>Accepted formats: PDF, TXT, DOC, DOCX (Max 10MB per file)</li>
-            <li>Vulgar or inappropriate content will result in immediate disqualification</li>
-          </ul>
-        </div>
+    <div id="submissionClosed">
+      <div class="closed-box">
+        <div class="closed-icon">&#128274;</div>
+        <h2>Submissions are currently closed</h2>
+        <p>Writeup submission is not open right now. Please check back later or stay tuned for updates.</p>
       </div>
-      <div class="main">
-        <div class="form-card" id="formCard">
+    </div>
+
+    <div id="submissionOpen">
+      <div class="content-row">
+        <div class="sidebar">
+          <div class="rules-box">
+            <div class="rules-title">Writeup Rules</div>
+            <ul>
+              <li>Writeup must be your own original work &mdash; plagiarism strictly prohibited</li>
+              <li>Include step-by-step approach with commands, screenshots, and explanations</li>
+              <li>Mention tools, techniques, and resources used to solve the challenge</li>
+              <li>Accepted formats: PDF, TXT, DOC, DOCX (Max 10MB per file)</li>
+              <li>Vulgar or inappropriate content will result in immediate disqualification</li>
+            </ul>
+          </div>
+        </div>
+        <div class="main">
+          <div class="form-card" id="formCard">
       <form id="writeupForm" method="post" enctype="multipart/form-data" action="https://submit.jotform.com/submit/261456666763065">
         <input type="hidden" name="formID" value="261456666763065">
         <input type="hidden" name="submitSource" value="unknown">
@@ -555,6 +593,7 @@
         </button>
       </form>
     </div>
+        </div>
       </div>
     </div>
 
@@ -564,6 +603,15 @@
   </div>
 
   <script>
+    var SUBMISSIONS_OPEN = false;
+
+    function toggleSubmissions(open) {
+      document.getElementById('submissionClosed').style.display = open ? 'none' : 'block';
+      document.getElementById('submissionOpen').style.display = open ? 'block' : 'none';
+    }
+
+    toggleSubmissions(SUBMISSIONS_OPEN);
+
     var STORAGE_KEY = 'hambactf_submitted_261456666763065';
     var COOKIE_KEY = 'hambactf_submitted';
 
