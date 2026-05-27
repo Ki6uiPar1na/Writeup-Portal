@@ -309,6 +309,19 @@
       color: #78909c;
     }
 
+    .notice-bar {
+      background: rgba(255, 193, 7, 0.12);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      color: #ffd54f;
+      text-align: center;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      backdrop-filter: blur(4px);
+    }
+
     .spinner {
       display: inline-block;
       width: 18px;
@@ -339,6 +352,8 @@
       <h1>Writeup <span>Submission</span></h1>
       <p>Submit your writeups for Hamba CTF Contest 2026 - JCSC</p>
     </div>
+
+    <div class="notice-bar">&#9888; Only one submission allowed per participant. Duplicate entries will be rejected.</div>
 
     <div class="form-card" id="formCard">
       <form id="writeupForm" method="post" enctype="multipart/form-data" action="https://submit.jotform.com/submit/261456666763065">
