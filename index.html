@@ -8,7 +8,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #0a0f1e;
+      background: linear-gradient(160deg, #0a1a0a 0%, #0d2818 40%, #1a3a1a 100%);
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       min-height: 100vh;
       display: flex;
@@ -16,29 +16,81 @@
       align-items: center;
       padding: 40px 16px;
       position: relative;
-      background-image:
-        radial-gradient(ellipse at 20% 50%, rgba(26, 35, 126, 0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 50%, rgba(57, 73, 171, 0.1) 0%, transparent 60%),
-        radial-gradient(ellipse at 50% 0%, rgba(26, 35, 126, 0.08) 0%, transparent 50%);
+      overflow-x: hidden;
     }
 
     body::before {
-      content: '';
+      content: '\2606';
       position: fixed;
-      inset: 0;
-      background:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 60px 60px;
+      top: 5%;
+      left: 5%;
+      font-size: 180px;
+      color: rgba(255, 215, 0, 0.04);
+      transform: rotate(-15deg);
       pointer-events: none;
       z-index: 0;
+    }
+
+    body::after {
+      content: '\2606';
+      position: fixed;
+      bottom: 10%;
+      right: 8%;
+      font-size: 120px;
+      color: rgba(255, 215, 0, 0.03);
+      transform: rotate(20deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .stars span {
+      position: absolute;
+      color: rgba(255, 215, 0, 0.15);
+      font-size: 14px;
+      animation: twinkle 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .moon {
+      position: fixed;
+      top: 20px;
+      right: 40px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffe57f, #ffd54f);
+      box-shadow: 0 0 40px rgba(255, 213, 79, 0.25), 0 0 80px rgba(255, 213, 79, 0.1);
+      z-index: 1;
+    }
+
+    .moon::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #0d2818;
     }
 
     .container {
       max-width: 920px;
       width: 100%;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     .content-row {
@@ -70,32 +122,47 @@
     }
 
     .header h1 {
-      color: #fff;
-      font-size: 26px;
+      color: #ffd54f;
+      font-size: 28px;
       font-weight: 700;
       letter-spacing: 0.5px;
+      text-shadow: 0 0 20px rgba(255, 213, 79, 0.15);
     }
 
     .header h1 span {
-      color: #5c6bc0;
+      color: #81c784;
     }
 
     .header p {
-      color: #78909c;
+      color: #a5d6a7;
       font-size: 14px;
-      margin-top: 6px;
+      margin-top: 8px;
+    }
+
+    .eid-badge {
+      display: inline-block;
+      background: rgba(255, 213, 79, 0.12);
+      border: 1px solid rgba(255, 213, 79, 0.25);
+      color: #ffd54f;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-top: 10px;
+      letter-spacing: 0.5px;
     }
 
     .form-card {
-      background: #fff;
+      background: linear-gradient(145deg, #1b3a1b, #1a2e1a);
+      border: 1px solid rgba(255, 215, 0, 0.12);
       border-radius: 16px;
       padding: 36px 38px;
-      box-shadow: 0 12px 50px rgba(0,0,0,0.35);
+      box-shadow: 0 12px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255, 215, 0, 0.05);
       transition: all 0.3s ease;
     }
 
     .form-card.success-state {
-      background: linear-gradient(135deg, #e8f0fe, #f5f7ff);
+      background: linear-gradient(145deg, #1b3a1b, #1a2e1a);
     }
 
     .form-group {
@@ -108,32 +175,32 @@
       gap: 6px;
       font-size: 14px;
       font-weight: 600;
-      color: #37474f;
+      color: #c8e6c9;
       margin-bottom: 7px;
     }
 
     .form-group label .required {
-      color: #e53935;
+      color: #ef9a9a;
     }
 
     .form-group .input-icon {
       display: flex;
       align-items: center;
-      border: 2px solid #e0e0e0;
+      border: 1px solid rgba(255, 215, 0, 0.15);
       border-radius: 10px;
       transition: border-color 0.25s, box-shadow 0.25s;
-      background: #fafafa;
+      background: rgba(255,255,255,0.04);
     }
 
     .form-group .input-icon:focus-within {
-      border-color: #3949ab;
-      box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.1);
-      background: #fff;
+      border-color: #ffd54f;
+      box-shadow: 0 0 0 3px rgba(255, 213, 79, 0.08);
+      background: rgba(255,255,255,0.06);
     }
 
     .form-group .input-icon .icon-box {
       padding: 0 14px;
-      color: #90a4ae;
+      color: rgba(255, 213, 79, 0.4);
       font-size: 16px;
       flex-shrink: 0;
     }
@@ -144,49 +211,53 @@
       border: none;
       border-radius: 10px;
       font-size: 15px;
-      color: #263238;
+      color: #e8f5e9;
       outline: none;
       background: transparent;
     }
 
+    .form-group .input-icon input::placeholder {
+      color: rgba(255,255,255,0.2);
+    }
+
     .file-upload-box {
-      border: 2px dashed #bdbdbd;
+      border: 1px dashed rgba(255, 215, 0, 0.2);
       border-radius: 10px;
       padding: 30px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.25s;
-      background: #fafafa;
+      background: rgba(255,255,255,0.02);
       position: relative;
     }
 
     .file-upload-box:hover {
-      border-color: #3949ab;
-      background: #f0f2ff;
+      border-color: #ffd54f;
+      background: rgba(255, 215, 0, 0.04);
     }
 
     .file-upload-box.dragover {
-      border-color: #3949ab;
-      background: #e8eaff;
+      border-color: #ffd54f;
+      background: rgba(255, 215, 0, 0.06);
     }
 
     .file-upload-box .upload-icon {
       font-size: 36px;
-      color: #90a4ae;
+      color: rgba(255, 213, 79, 0.3);
       margin-bottom: 8px;
     }
 
     .file-upload-box .upload-text {
-      color: #546e7a;
+      color: rgba(255,255,255,0.5);
       font-size: 14px;
     }
 
     .file-upload-box .upload-text strong {
-      color: #3949ab;
+      color: #ffd54f;
     }
 
     .file-upload-box .upload-hint {
-      color: #90a4ae;
+      color: rgba(255,255,255,0.25);
       font-size: 12px;
       margin-top: 4px;
     }
@@ -200,15 +271,15 @@
 
     .file-upload-box .file-name {
       display: none;
-      color: #1a237e;
+      color: #a5d6a7;
       font-size: 13px;
       font-weight: 600;
       margin-top: 8px;
     }
 
     .file-upload-box.has-file {
-      border-color: #3949ab;
-      background: #e8eaff;
+      border-color: #81c784;
+      background: rgba(129, 199, 132, 0.06);
     }
 
     .file-upload-box.has-file .upload-icon,
@@ -223,13 +294,13 @@
 
     .submit-btn {
       width: 100%;
-      background: linear-gradient(135deg, #1a237e, #3949ab);
-      color: #fff;
+      background: linear-gradient(135deg, #ffd54f, #ffb300);
+      color: #1a2e1a;
       border: none;
       padding: 15px 0;
       border-radius: 10px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: opacity 0.2s, transform 0.15s;
       letter-spacing: 0.3px;
@@ -238,6 +309,7 @@
     .submit-btn:hover {
       opacity: 0.92;
       transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(255, 213, 79, 0.2);
     }
 
     .submit-btn:active {
@@ -245,7 +317,7 @@
     }
 
     .submit-btn:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
       transform: none;
     }
@@ -255,30 +327,36 @@
       padding: 40px 20px;
     }
 
-    .success-content .check-circle {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #1a237e, #3949ab);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 32px;
-      color: #fff;
-      box-shadow: 0 6px 20px rgba(26, 35, 126, 0.3);
+    .success-content .eid-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      display: block;
     }
 
     .success-content h2 {
-      color: #1a237e;
+      color: #ffd54f;
       font-size: 22px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+    }
+
+    .success-content .salami-text {
+      color: #a5d6a7;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 12px 0 6px;
+      line-height: 1.6;
     }
 
     .success-content p {
-      color: #546e7a;
-      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
       line-height: 1.6;
+    }
+
+    .success-content .eid-footer {
+      margin-top: 18px;
+      color: rgba(255, 213, 79, 0.4);
+      font-size: 18px;
     }
 
     .blocked-content {
@@ -290,43 +368,43 @@
       width: 72px;
       height: 72px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #e53935, #ff6659);
+      background: linear-gradient(135deg, #c62828, #e53935);
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 20px;
       font-size: 32px;
       color: #fff;
-      box-shadow: 0 6px 20px rgba(229, 57, 53, 0.3);
+      box-shadow: 0 6px 20px rgba(198, 40, 40, 0.3);
     }
 
     .blocked-content h2 {
-      color: #c62828;
+      color: #ef9a9a;
       font-size: 20px;
       margin-bottom: 8px;
     }
 
     .blocked-content p {
-      color: #78909c;
+      color: rgba(255,255,255,0.45);
       font-size: 14px;
       line-height: 1.6;
     }
 
     .footer {
       text-align: center;
-      color: #455a64;
+      color: rgba(255,255,255,0.2);
       font-size: 12px;
       margin-top: 24px;
       line-height: 1.7;
     }
 
     .footer strong {
-      color: #78909c;
+      color: rgba(255, 213, 79, 0.4);
     }
 
     .notice-bar {
-      background: rgba(255, 193, 7, 0.12);
-      border: 1px solid rgba(255, 193, 7, 0.3);
+      background: rgba(255, 193, 7, 0.06);
+      border: 1px solid rgba(255, 193, 7, 0.15);
       color: #ffd54f;
       text-align: center;
       padding: 10px 16px;
@@ -338,15 +416,15 @@
     }
 
     .rules-box {
-      background: rgba(33, 150, 243, 0.08);
-      border: 1px solid rgba(33, 150, 243, 0.25);
+      background: rgba(255, 215, 0, 0.03);
+      border: 1px solid rgba(255, 215, 0, 0.1);
       border-radius: 10px;
       padding: 14px 18px;
     }
 
     .rules-box .rules-title {
-      color: #64b5f6;
-      font-size: 13px;
+      color: #ffd54f;
+      font-size: 12px;
       font-weight: 700;
       margin-bottom: 8px;
       text-transform: uppercase;
@@ -360,26 +438,28 @@
     }
 
     .rules-box ul li {
-      color: #90a4ae;
-      font-size: 13px;
-      line-height: 1.8;
-      padding-left: 16px;
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+      line-height: 1.9;
+      padding-left: 14px;
       position: relative;
     }
 
     .rules-box ul li::before {
-      content: '\25B8';
+      content: '\2605';
       position: absolute;
       left: 0;
-      color: #64b5f6;
+      color: rgba(255, 213, 79, 0.3);
+      font-size: 8px;
+      top: 2px;
     }
 
     .spinner {
       display: inline-block;
       width: 18px;
       height: 18px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
+      border: 3px solid rgba(26, 46, 26, 0.2);
+      border-top-color: #1a2e1a;
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
       vertical-align: middle;
@@ -396,15 +476,30 @@
       .header h1 { font-size: 22px; }
       .content-row { flex-direction: column; }
       .content-row .sidebar { flex: none; width: 100%; }
+      .moon { width: 40px; height: 40px; top: 10px; right: 20px; }
+      .moon::after { width: 32px; height: 32px; top: -4px; left: -4px; }
     }
   </style>
 </head>
 <body>
+  <div class="stars">
+    <span style="top:8%;left:15%;animation-delay:0s">&#10022;</span>
+    <span style="top:20%;left:85%;animation-delay:0.5s">&#10022;</span>
+    <span style="top:45%;left:3%;animation-delay:1s">&#10022;</span>
+    <span style="top:60%;left:92%;animation-delay:1.5s">&#10022;</span>
+    <span style="top:80%;left:10%;animation-delay:2s">&#10022;</span>
+    <span style="top:35%;left:75%;animation-delay:2.5s">&#10022;</span>
+    <span style="top:70%;left:50%;animation-delay:0.8s">&#10022;</span>
+    <span style="top:15%;left:40%;animation-delay:1.8s">&#10022;</span>
+  </div>
+  <div class="moon"></div>
+
   <div class="container">
     <div class="header">
       <img src="banner.png" alt="Hamba CTF Contest 2026">
       <h1>Writeup <span>Submission</span></h1>
       <p>Submit your writeups for Hamba CTF Contest 2026 - JCSC</p>
+      <div class="eid-badge">&#127874; Eid Mubarak 2026 &#127874;</div>
     </div>
 
     <div class="notice-bar">&#9888; Only one submission allowed per participant. Duplicate entries will be rejected.</div>
@@ -549,12 +644,12 @@
         mode: 'no-cors'
       }).then(function() {
         markSubmitted();
-        card.classList.add('success-state');
-        card.innerHTML = '<div class="success-content"><div class="check-circle">&#10003;</div><h2>Your Writeup is Under Review</h2><p>Thank you for your submission.<br>We will review it and get back to you.</p></div>';
+        card.className = 'form-card success-state';
+        card.innerHTML = '<div class="success-content"><span class="eid-icon">&#127874;</span><h2>Writeup Submitted!</h2><div class="salami-text">You will get salami before Eid namaz<br>Insha Allah</div><p>Thank you for your submission.<br>We will review it and get back to you.</p><div class="eid-footer">Eid Mubarak &#10022;</div></div>';
       }).catch(function() {
         markSubmitted();
-        card.classList.add('success-state');
-        card.innerHTML = '<div class="success-content"><div class="check-circle">&#10003;</div><h2>Your Writeup is Under Review</h2><p>Thank you for your submission.<br>We will review it and get back to you.</p></div>';
+        card.className = 'form-card success-state';
+        card.innerHTML = '<div class="success-content"><span class="eid-icon">&#127874;</span><h2>Writeup Submitted!</h2><div class="salami-text">You will get salami before Eid namaz<br>Insha Allah</div><p>Thank you for your submission.<br>We will review it and get back to you.</p><div class="eid-footer">Eid Mubarak &#10022;</div></div>';
       });
     });
   </script>
