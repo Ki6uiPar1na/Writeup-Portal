@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JCSC - Hamba CTF Contest 2026</title>
+  <title>JCSC - CTF Writeup Portal</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: linear-gradient(160deg, #0a1a0a 0%, #0d2818 40%, #1a3a1a 100%);
+      background: linear-gradient(160deg, #070b12 0%, #0b1220 40%, #0f1b2e 100%);
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       min-height: 100vh;
       display: flex;
@@ -25,7 +25,7 @@
       top: 5%;
       left: 5%;
       font-size: 180px;
-      color: rgba(255, 215, 0, 0.04);
+      color: rgba(0, 217, 255, 0.03);
       transform: rotate(-15deg);
       pointer-events: none;
       z-index: 0;
@@ -37,53 +37,23 @@
       bottom: 10%;
       right: 8%;
       font-size: 120px;
-      color: rgba(255, 215, 0, 0.03);
+      color: rgba(0, 217, 255, 0.025);
       transform: rotate(20deg);
       pointer-events: none;
       z-index: 0;
     }
 
-    .stars {
+    .grid-bg {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 0;
-      overflow: hidden;
-    }
-
-    .stars span {
-      position: absolute;
-      color: rgba(255, 215, 0, 0.15);
-      font-size: 14px;
-      animation: twinkle 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes twinkle {
-      0% { opacity: 0.2; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1.2); }
-    }
-
-    .moon {
-      position: fixed;
-      top: 20px;
-      right: 40px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #ffe57f, #ffd54f);
-      box-shadow: 0 0 40px rgba(255, 213, 79, 0.25), 0 0 80px rgba(255, 213, 79, 0.1);
-      z-index: 1;
-    }
-
-    .moon::after {
-      content: '';
-      position: absolute;
-      top: -8px;
-      left: -8px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: #0d2818;
+      background-image:
+        linear-gradient(rgba(0, 217, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 217, 255, 0.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
     }
 
     .container {
@@ -93,57 +63,64 @@
       z-index: 2;
     }
 
-    .content-row {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-
-    .content-row .sidebar {
-      flex: 0 0 280px;
-    }
-
-    .content-row .main {
-      flex: 1;
-      min-width: 0;
-    }
-
     .header {
       text-align: center;
       margin-bottom: 28px;
     }
 
-    .header img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 14px;
+    .header .terminal-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 217, 255, 0.06);
+      border: 1px solid rgba(0, 217, 255, 0.25);
+      border-radius: 12px;
+      padding: 12px 26px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+      font-size: 15px;
+      color: #00d9ff;
     }
 
+    .header .terminal-logo .dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .header .terminal-logo .dots i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .header .terminal-logo .dots i:nth-child(1) { background: #ff5f57; }
+    .header .terminal-logo .dots i:nth-child(2) { background: #febc2e; }
+    .header .terminal-logo .dots i:nth-child(3) { background: #28c840; }
+
     .header h1 {
-      color: #ffd54f;
+      color: #00d9ff;
       font-size: 28px;
       font-weight: 700;
       letter-spacing: 0.5px;
-      text-shadow: 0 0 20px rgba(255, 213, 79, 0.15);
+      text-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
     }
 
     .header h1 span {
-      color: #81c784;
+      color: #82aaff;
     }
 
     .header p {
-      color: #a5d6a7;
+      color: #8ba3c7;
       font-size: 14px;
       margin-top: 8px;
     }
 
-    .eid-badge {
+    .tag-badge {
       display: inline-block;
-      background: rgba(255, 213, 79, 0.12);
-      border: 1px solid rgba(255, 213, 79, 0.25);
-      color: #ffd54f;
+      background: rgba(130, 170, 255, 0.08);
+      border: 1px solid rgba(130, 170, 255, 0.22);
+      color: #82aaff;
       font-size: 12px;
       font-weight: 600;
       padding: 4px 14px;
@@ -153,16 +130,12 @@
     }
 
     .form-card {
-      background: linear-gradient(145deg, #1b3a1b, #1a2e1a);
-      border: 1px solid rgba(255, 215, 0, 0.12);
+      background: linear-gradient(145deg, #111a2b, #0e1624);
+      border: 1px solid rgba(0, 217, 255, 0.12);
       border-radius: 16px;
       padding: 36px 38px;
-      box-shadow: 0 12px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255, 215, 0, 0.05);
+      box-shadow: 0 12px 50px rgba(0,0,0,0.45), inset 0 1px 0 rgba(0, 217, 255, 0.05);
       transition: all 0.3s ease;
-    }
-
-    .form-card.success-state {
-      background: linear-gradient(145deg, #1b3a1b, #1a2e1a);
     }
 
     .form-group {
@@ -175,32 +148,32 @@
       gap: 6px;
       font-size: 14px;
       font-weight: 600;
-      color: #c8e6c9;
+      color: #9fb8d8;
       margin-bottom: 7px;
     }
 
     .form-group label .required {
-      color: #ef9a9a;
+      color: #ff7b7b;
     }
 
     .form-group .input-icon {
       display: flex;
       align-items: center;
-      border: 1px solid rgba(255, 215, 0, 0.15);
+      border: 1px solid rgba(0, 217, 255, 0.15);
       border-radius: 10px;
       transition: border-color 0.25s, box-shadow 0.25s;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.03);
     }
 
     .form-group .input-icon:focus-within {
-      border-color: #ffd54f;
-      box-shadow: 0 0 0 3px rgba(255, 213, 79, 0.08);
-      background: rgba(255,255,255,0.06);
+      border-color: #00d9ff;
+      box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.08);
+      background: rgba(255,255,255,0.05);
     }
 
     .form-group .input-icon .icon-box {
       padding: 0 14px;
-      color: rgba(255, 213, 79, 0.4);
+      color: rgba(0, 217, 255, 0.45);
       font-size: 16px;
       flex-shrink: 0;
     }
@@ -211,17 +184,17 @@
       border: none;
       border-radius: 10px;
       font-size: 15px;
-      color: #e8f5e9;
+      color: #dbe7f5;
       outline: none;
       background: transparent;
     }
 
     .form-group .input-icon input::placeholder {
-      color: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.18);
     }
 
     .file-upload-box {
-      border: 1px dashed rgba(255, 215, 0, 0.2);
+      border: 1px dashed rgba(0, 217, 255, 0.22);
       border-radius: 10px;
       padding: 30px 20px;
       text-align: center;
@@ -232,18 +205,18 @@
     }
 
     .file-upload-box:hover {
-      border-color: #ffd54f;
-      background: rgba(255, 215, 0, 0.04);
+      border-color: #00d9ff;
+      background: rgba(0, 217, 255, 0.04);
     }
 
     .file-upload-box.dragover {
-      border-color: #ffd54f;
-      background: rgba(255, 215, 0, 0.06);
+      border-color: #00d9ff;
+      background: rgba(0, 217, 255, 0.06);
     }
 
     .file-upload-box .upload-icon {
       font-size: 36px;
-      color: rgba(255, 213, 79, 0.3);
+      color: rgba(0, 217, 255, 0.35);
       margin-bottom: 8px;
     }
 
@@ -253,7 +226,7 @@
     }
 
     .file-upload-box .upload-text strong {
-      color: #ffd54f;
+      color: #00d9ff;
     }
 
     .file-upload-box .upload-hint {
@@ -271,15 +244,15 @@
 
     .file-upload-box .file-name {
       display: none;
-      color: #a5d6a7;
+      color: #6ee7a0;
       font-size: 13px;
       font-weight: 600;
       margin-top: 8px;
     }
 
     .file-upload-box.has-file {
-      border-color: #81c784;
-      background: rgba(129, 199, 132, 0.06);
+      border-color: #28c840;
+      background: rgba(40, 200, 64, 0.05);
     }
 
     .file-upload-box.has-file .upload-icon,
@@ -294,8 +267,8 @@
 
     .submit-btn {
       width: 100%;
-      background: linear-gradient(135deg, #ffd54f, #ffb300);
-      color: #1a2e1a;
+      background: linear-gradient(135deg, #00d9ff, #0091cc);
+      color: #071019;
       border: none;
       padding: 15px 0;
       border-radius: 10px;
@@ -309,7 +282,7 @@
     .submit-btn:hover {
       opacity: 0.92;
       transform: translateY(-1px);
-      box-shadow: 0 4px 20px rgba(255, 213, 79, 0.2);
+      box-shadow: 0 4px 20px rgba(0, 217, 255, 0.25);
     }
 
     .submit-btn:active {
@@ -327,21 +300,21 @@
       padding: 40px 20px;
     }
 
-    .success-content .eid-icon {
+    .success-content .flag-icon {
       font-size: 56px;
       margin-bottom: 16px;
       display: block;
     }
 
     .success-content h2 {
-      color: #ffd54f;
+      color: #00d9ff;
       font-size: 22px;
       margin-bottom: 6px;
     }
 
-    .success-content .salami-text {
-      color: #a5d6a7;
-      font-size: 16px;
+    .success-content .sub-text {
+      color: #8ba3c7;
+      font-size: 15px;
       font-weight: 600;
       margin: 12px 0 6px;
       line-height: 1.6;
@@ -353,10 +326,11 @@
       line-height: 1.6;
     }
 
-    .success-content .eid-footer {
+    .success-content .success-footer {
       margin-top: 18px;
-      color: rgba(255, 213, 79, 0.4);
+      color: rgba(0, 217, 255, 0.4);
       font-size: 18px;
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
     }
 
     .blocked-content {
@@ -379,7 +353,7 @@
     }
 
     .blocked-content h2 {
-      color: #ef9a9a;
+      color: #ff9a9a;
       font-size: 20px;
       margin-bottom: 8px;
     }
@@ -393,8 +367,8 @@
     .closed-box {
       text-align: center;
       padding: 50px 20px;
-      background: rgba(255, 215, 0, 0.03);
-      border: 1px solid rgba(255, 215, 0, 0.1);
+      background: rgba(0, 217, 255, 0.03);
+      border: 1px solid rgba(0, 217, 255, 0.1);
       border-radius: 16px;
       margin-top: 0;
     }
@@ -405,7 +379,7 @@
     }
 
     .closed-box h2 {
-      color: #ffd54f;
+      color: #00d9ff;
       font-size: 20px;
       margin-bottom: 8px;
     }
@@ -428,13 +402,13 @@
     }
 
     .footer strong {
-      color: rgba(255, 213, 79, 0.4);
+      color: rgba(0, 217, 255, 0.4);
     }
 
     .notice-bar {
-      background: rgba(255, 193, 7, 0.06);
-      border: 1px solid rgba(255, 193, 7, 0.15);
-      color: #ffd54f;
+      background: rgba(254, 188, 46, 0.05);
+      border: 1px solid rgba(254, 188, 46, 0.18);
+      color: #febc2e;
       text-align: center;
       padding: 10px 16px;
       border-radius: 10px;
@@ -445,14 +419,14 @@
     }
 
     .rules-box {
-      background: rgba(255, 215, 0, 0.03);
-      border: 1px solid rgba(255, 215, 0, 0.1);
+      background: rgba(0, 217, 255, 0.03);
+      border: 1px solid rgba(0, 217, 255, 0.1);
       border-radius: 10px;
       padding: 14px 18px;
     }
 
     .rules-box .rules-title {
-      color: #ffd54f;
+      color: #00d9ff;
       font-size: 12px;
       font-weight: 700;
       margin-bottom: 8px;
@@ -475,20 +449,20 @@
     }
 
     .rules-box ul li::before {
-      content: '\2605';
+      content: '\25B8';
       position: absolute;
       left: 0;
-      color: rgba(255, 213, 79, 0.3);
-      font-size: 8px;
-      top: 2px;
+      color: rgba(0, 217, 255, 0.35);
+      font-size: 9px;
+      top: 3px;
     }
 
     .spinner {
       display: inline-block;
       width: 18px;
       height: 18px;
-      border: 3px solid rgba(26, 46, 26, 0.2);
-      border-top-color: #1a2e1a;
+      border: 3px solid rgba(7, 16, 25, 0.2);
+      border-top-color: #071019;
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
       vertical-align: middle;
@@ -505,30 +479,21 @@
       .header h1 { font-size: 22px; }
       .content-row { flex-direction: column; }
       .content-row .sidebar { flex: none; width: 100%; }
-      .moon { width: 40px; height: 40px; top: 10px; right: 20px; }
-      .moon::after { width: 32px; height: 32px; top: -4px; left: -4px; }
     }
   </style>
 </head>
 <body>
-  <div class="stars">
-    <span style="top:8%;left:15%;animation-delay:0s">&#10022;</span>
-    <span style="top:20%;left:85%;animation-delay:0.5s">&#10022;</span>
-    <span style="top:45%;left:3%;animation-delay:1s">&#10022;</span>
-    <span style="top:60%;left:92%;animation-delay:1.5s">&#10022;</span>
-    <span style="top:80%;left:10%;animation-delay:2s">&#10022;</span>
-    <span style="top:35%;left:75%;animation-delay:2.5s">&#10022;</span>
-    <span style="top:70%;left:50%;animation-delay:0.8s">&#10022;</span>
-    <span style="top:15%;left:40%;animation-delay:1.8s">&#10022;</span>
-  </div>
-  <div class="moon"></div>
+  <div class="grid-bg"></div>
 
   <div class="container">
     <div class="header">
-      <img src="banner.png" alt="Hamba CTF Contest 2026">
-      <h1>Writeup <span>Submission</span></h1>
-      <p>Submit your writeups for Hamba CTF Contest 2026 - JCSC</p>
-      <div class="eid-badge">&#127874; Eid Mubarak 2026 &#127874;</div>
+      <div class="terminal-logo">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span>~/ctf $ submit_writeup --universal</span>
+      </div>
+      <h1>CTF Writeup <span>Portal</span></h1>
+      <p>Universal writeup submission portal for all CTF events</p>
+      <div class="tag-badge">&#128736;&#65039; Powered by JCSC &bull; Capture The Flag</div>
     </div>
 
     <div class="notice-bar" id="noticeBar">&#9888; Only one submission allowed per participant. Duplicate entries will be rejected.</div>
@@ -548,8 +513,9 @@
             <div class="rules-title">Writeup Rules</div>
             <ul>
               <li>Writeup must be your own original work &mdash; plagiarism strictly prohibited</li>
-              <li>Include step-by-step approach with commands, screenshots, and explanations</li>
-              <li>Mention tools, techniques, and resources used to solve the challenge</li>
+              <li>Cover every solved challenge step-by-step: recon, exploitation, and flag capture</li>
+              <li>Include working commands, payloads, scripts, and screenshots as proof</li>
+              <li>Mention tools, techniques, and references used to solve each challenge</li>
               <li>Accepted formats: PDF, TXT, DOC, DOCX (Max 10MB per file)</li>
               <li>Vulgar or inappropriate content will result in immediate disqualification</li>
             </ul>
@@ -612,8 +578,8 @@
 
     toggleSubmissions(SUBMISSIONS_OPEN);
 
-    var STORAGE_KEY = 'hambactf_submitted_261456666763065';
-    var COOKIE_KEY = 'hambactf_submitted';
+    var STORAGE_KEY = 'jcsc_writeup_submitted_261456666763065';
+    var COOKIE_KEY = 'jcsc_writeup_submitted';
 
     function getCookie(name) {
       var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -637,7 +603,7 @@
 
     function showAlreadySubmitted() {
       var card = document.getElementById('formCard');
-      card.innerHTML = '<div class="blocked-content"><div class="block-icon">!</div><h2>Already Submitted</h2><p>You have already submitted a writeup for this contest.<br>Multiple submissions are not allowed.</p></div>';
+      card.innerHTML = '<div class="blocked-content"><div class="block-icon">!</div><h2>Already Submitted</h2><p>You have already submitted a writeup.<br>Multiple submissions are not allowed.</p></div>';
     }
 
     if (hasSubmittedBefore()) {
@@ -693,11 +659,11 @@
       }).then(function() {
         markSubmitted();
         card.className = 'form-card success-state';
-        card.innerHTML = '<div class="success-content"><span class="eid-icon">&#127874;</span><h2>Writeup Submitted!</h2><div class="salami-text">You will get salami before Eid namaz<br>Insha Allah</div><p>Thank you for your submission.<br>We will review it and get back to you.</p><div class="eid-footer">Eid Mubarak &#10022;</div></div>';
+        card.innerHTML = '<div class="success-content"><span class="flag-icon">\uD83C\uDFC1</span><h2>Writeup Submitted!</h2><div class="sub-text">Flag captured, writeup delivered.</div><p>Thank you for your submission.<br>We will review it and get back to you.</p><div class="success-footer">root@jcsc:~# done &#10022;</div></div>';
       }).catch(function() {
         markSubmitted();
         card.className = 'form-card success-state';
-        card.innerHTML = '<div class="success-content"><span class="eid-icon">&#127874;</span><h2>Writeup Submitted!</h2><div class="salami-text">You will get salami before Eid namaz<br>Insha Allah</div><p>Thank you for your submission.<br>We will review it and get back to you.</p><div class="eid-footer">Eid Mubarak &#10022;</div></div>';
+        card.innerHTML = '<div class="success-content"><span class="flag-icon">\uD83C\uDFC1</span><h2>Writeup Submitted!</h2><div class="sub-text">Flag captured, writeup delivered.</div><p>Thank you for your submission.<br>We will review it and get back to you.</p><div class="success-footer">root@jcsc:~# done &#10022;</div></div>';
       });
     });
   </script>
